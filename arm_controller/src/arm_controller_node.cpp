@@ -11,21 +11,31 @@ int main(int argc, char **argv) {
 
     ros::Subscriber subscriber = nodeHandle.subscribe("/arm/joint_states", 1, topicCallback);
 
-    ros::Publisher pub_j0 = nodeHandle.advertise<std_msgs::Float64>("PositionJointInterface_J0_controller/command", 1000);
-    ros::Publisher pub_j1 = nodeHandle.advertise<std_msgs::Float64>("PositionJointInterface_J1_controller/command", 1000);
-    ros::Publisher pub_j2 = nodeHandle.advertise<std_msgs::Float64>("PositionJointInterface_J2_controller/command", 1000);
-    ros::Publisher pub_j3 = nodeHandle.advertise<std_msgs::Float64>("PositionJointInterface_J3_controller/command", 1000);
+    ros::Publisher pub_j0 = nodeHandle.advertise<std_msgs::Float64>("/arm/PositionJointInterface_J0_controller/command", 1000);
+    ros::Publisher pub_j1 = nodeHandle.advertise<std_msgs::Float64>("/arm/PositionJointInterface_J1_controller/command", 1000);
+    ros::Publisher pub_j2 = nodeHandle.advertise<std_msgs::Float64>("/arm/PositionJointInterface_J2_controller/command", 1000);
+    ros::Publisher pub_j3 = nodeHandle.advertise<std_msgs::Float64>("/arm/PositionJointInterface_J3_controller/command", 1000);
 
     ros::Rate loop_rate(10);
     int count = 0;
+    double value_j0 = atof(argv[1]);
+    double value_j1 = atof(argv[2]);
+    double value_j2 = atof(argv[3]);
+    double value_j3 = atof(argv[4]);
 
     while (ros::ok()) {
-
         std_msgs::Float64 msg;
-        msg.data=1.0;
+        
+        msg.data=value_j0;
         pub_j0.publish(msg);
+        
+        msg.data=value_j1;
         pub_j1.publish(msg);
+        
+        msg.data=value_j2;
         pub_j2.publish(msg);
+        
+        msg.data=value_j3;
         pub_j3.publish(msg);
 
         ros::spinOnce();
